@@ -1,0 +1,16 @@
+.page-layout {
+  padding: "50px 50px";
+  background: "#f3f3f3";
+}
+
+@media screen and (max-width: 992px) {
+  .page-layout {
+    padding: "25px 25px";
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page-layout {
+    padding: "10px 10px";
+  }
+}
