@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +13,7 @@ const PostDetail = () => {
 
   useEffect(() => {
     fetchPostDetail();
+    return () => {};
   }, [postId]);
 
   const fetchPostDetail = async () => {

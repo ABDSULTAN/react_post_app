@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Button, Col, Form, Input, Mentions, Row, Space } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Space } from "antd";
+import axios from "axios";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
-  const { TextArea } = Input;
-
   const [form] = Form.useForm();
-
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
