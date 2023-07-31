@@ -1,12 +1,12 @@
+/* eslint-disable */
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space } from "antd";
-import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../redux/actions/post";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { createPost } from "../redux/actions/post";
 
 const CreatePost = ({
   createPost,
@@ -40,7 +40,7 @@ const CreatePost = ({
       onReset();
       handlePrevious();
     }
-  }, [isCreatePostSuccess, isCreatePostFailed]);
+  }, [isCreatePostSuccess, isCreatePostFailed, hasPostError]);
 
   const onFinish = async (values) => {
     const newPost = {

@@ -1,16 +1,16 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
-import { Button, Table } from "antd";
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Button, Table } from "antd";
 import { useSnackbar } from "notistack";
-import Loader from "../components/Loader";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 import { getAllPost } from "../redux/actions/post";
 
 const PostList = ({
@@ -49,7 +49,7 @@ const PostList = ({
       setPosts(getPostData);
       setIsLoading(false);
     }
-  }, [isGetPostSuccess, isGetPostFailed]);
+  }, [isGetPostSuccess, isGetPostFailed, hasPostError]);
 
   const columns = [
     {

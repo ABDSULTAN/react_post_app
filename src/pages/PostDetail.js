@@ -1,13 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { Button } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { getPostDetails } from "../redux/actions/post";
-import { connect } from "react-redux";
 
 const PostDetail = ({
   getPostDetails,
@@ -44,7 +43,7 @@ const PostDetail = ({
       setPost(getPostDetailsData);
       setIsLoading(false);
     }
-  }, [isGetPostDetailsSuccess, isGetPostDetailsFailed]);
+  }, [isGetPostDetailsSuccess, isGetPostDetailsFailed, hasPostError]);
 
   const fetchPostDetail = async () => {
     getPostDetails({ postId });
