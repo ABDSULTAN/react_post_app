@@ -1,26 +1,54 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space } from "antd";
 import axios from "axios";
-import React from "react";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createPost } from "../redux/actions/post";
+import { connect } from "react-redux";
+import Loader from "../components/Loader";
 
-const CreatePost = () => {
+const CreatePost = ({
+  createPost,
+  post: {
+    isCreatePostSuccess,
+    isCreatePostFailed,
+    createPostData,
+    hasPostError,
+  },
+}) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (hasPostError && createPostData !== null) {
+      window.scroll(0, 0);
+      setIsLoading(false);
+      enqueueSnackbar("Post has not been created.", {
+        variant: "error",
+      });
+    }
+
+    if (isCreatePostSuccess) {
+      setIsLoading(false);
+      enqueueSnackbar("Post has been created successfully.", {
+        variant: "success",
+      });
+      onReset();
+      handlePrevious();
+    }
+  }, [isCreatePostSuccess, isCreatePostFailed]);
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
     const newPost = {
       title: values.title,
       body: values.description,
     };
-
-    const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/posts",
-      newPost
-    );
-    console.log("response............", response);
-    //   onReset()
+    setIsLoading(true);
+    createPost(newPost);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -30,50 +58,13 @@ const CreatePost = () => {
     form.resetFields();
   };
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-
-  //     try {
-  //       if (title.length === 0) {
-  //         setIsTitleError(true);
-  //         return;
-  //       }
-
-  //       if (description.length === 0) {
-  //         setIsDescriptionError(true);
-  //         return;
-  //       }
-
-  //       const newPost = {
-  //         title,
-  //         body: description,
-  //       };
-
-  //       const response = await axios.post(
-  //         "https://jsonplaceholder.typicode.com/posts",
-  //         newPost
-  //       );
-  //       console.log("response............", response);
-  //       //   if (response) {
-  //       //     handlePrevious();
-  //       //   }
-
-  //       // Handle success and redirect
-  //     } catch (error) {
-  //       // Handle error
-  //     }
-  //   };
-
-  //   const handleReset = () => {
-  //     setTitle("");
-  //     setDescription("");
-  //   };
-
   const handlePrevious = () => {
     navigate("/");
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Form
       name="postCreate"
       form={form}
@@ -151,4 +142,8 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+const mapStateToProps = (state) => ({
+  post: state.post,
+});
+
+export default connect(mapStateToProps, { createPost })(CreatePost);

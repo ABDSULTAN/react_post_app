@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Button, Table } from "antd";
 import {
   ArrowLeftOutlined,
@@ -9,17 +8,48 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import Loader from "../components/Loader";
+import { connect } from "react-redux";
+import { getAllPost } from "../redux/actions/post";
 
-const PostList = () => {
+const PostList = ({
+  getAllPost,
+  post: {
+    isGetPostSuccess,
+    isGetPostFailed,
+    getPostData,
+
+    hasPostError,
+  },
+}) => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [start, setStart] = useState(0);
+
   const limit = 10;
 
   useEffect(() => {
     fetchPosts();
   }, [start]);
+
+  useEffect(() => {
+    if (hasPostError && getPostData !== null) {
+      window.scroll(0, 0);
+      setIsLoading(false);
+      enqueueSnackbar("Error fetching posts.", {
+        variant: "error",
+      });
+    }
+
+    if (isGetPostSuccess) {
+      setPosts(getPostData);
+      setIsLoading(false);
+    }
+  }, [isGetPostSuccess, isGetPostFailed]);
 
   const columns = [
     {
@@ -50,16 +80,13 @@ const PostList = () => {
   ];
 
   const fetchPosts = async () => {
-    try {
-      const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?_start=${start}&_limit=${limit}`
-      );
-      if (response.data.length > 0) {
-        setPosts(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
+    setIsLoading(true);
+
+    const body = {
+      start,
+      limit,
+    };
+    getAllPost(body);
   };
 
   const handleNext = () => {
@@ -76,7 +103,9 @@ const PostList = () => {
     navigate("create-post");
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div style={{ background: "#ffffff", padding: "10px" }}>
       <div style={{ textAlign: "end", marginBottom: "10px" }}>
         <Button icon={<EditOutlined />} onClick={onCreatePost}>
@@ -118,4 +147,8 @@ const PostList = () => {
   );
 };
 
-export default PostList;
+const mapStateToProps = (state) => ({
+  post: state.post,
+});
+
+export default connect(mapStateToProps, { getAllPost })(PostList);

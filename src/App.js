@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import PostList from "./components/PostList";
-import CreatePost from "./components/CreatePost";
-import PostDetail from "./components/PostDetail";
+import PostList from "./pages/PostList";
 import PageLayout from "./PageLayout";
+import CreatePost from "./pages/CreatePost";
+import PostDetail from "./pages/PostDetail";
+import "./App.css";
 
 function App() {
   return (

@@ -3,6 +3,23 @@
   background: "#f3f3f3";
 }
 
+.loader-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.loader-main {
+  height: 100%;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 992px) {
   .page-layout {
     padding: "25px 25px";
