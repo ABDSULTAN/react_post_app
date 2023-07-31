@@ -6,10 +6,10 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
-import { createPost } from "../redux/actions/post";
+import { createPostDetails } from "../redux/actions/post";
 
 const CreatePost = ({
-  createPost,
+  createPostDetails,
   post: {
     isCreatePostSuccess,
     isCreatePostFailed,
@@ -48,7 +48,7 @@ const CreatePost = ({
       body: values.description,
     };
     setIsLoading(true);
-    createPost(newPost);
+    createPostDetails(newPost);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -146,4 +146,4 @@ const mapStateToProps = (state) => ({
   post: state.post,
 });
 
-export default connect(mapStateToProps, { createPost })(CreatePost);
+export default connect(mapStateToProps, { createPostDetails })(CreatePost);

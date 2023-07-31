@@ -61,7 +61,7 @@ export const getPostDetails = (body) => async (dispatch) => {
     });
 };
 
-export const createPost = (body) => async (dispatch) => {
+export const createPostDetails = (body) => async (dispatch) => {
   axios
     .post("https://jsonplaceholder.typicode.com/posts", body)
     .then((response) => {
