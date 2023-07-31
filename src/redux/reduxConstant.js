@@ -1,4 +1,4 @@
-export default {
+const reduxConstant = {
   GET_POST_SUCCESS: "GET_POST_SUCCESS",
   GET_POST_FAILED: "GET_POST_FAILED",
   CREATE_POST_SUCCESS: "CREATE_POST_SUCCESS",
@@ -8,3 +8,5 @@ export default {
 
   REMOVE_POST_DATA_SUCCESS_FAILED: "REMOVE_POST_DATA_SUCCESS_FAILED",
 };
+
+export default reduxConstant;
